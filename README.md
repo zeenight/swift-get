@@ -180,13 +180,16 @@ git push pws main
 ![Capture](https://github.com/user-attachments/assets/b1fa8f13-6212-43ee-9a78-2a9c2432e4b6)
 
 
---Fungsi Git dalam Pengembangan Perangkat Lunak
+--Jelaskan fungsi git dalam pengembangan perangkat lunak!
+
 Git digunakan untuk melacak perubahan kode, memungkinkan kerja kolaboratif tanpa konflik. Pengembang dapat membuat cabang untuk eksperimen tanpa mengganggu kode utama. Git juga menyimpan riwayat perubahan yang memungkinkan rollback jika ada kesalahan. Selain itu, Git memudahkan berbagi kode secara terdistribusi.
 
---Mengapa Django Dijadikan Permulaan Pembelajaran?
+--Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
+
 Django memiliki fitur lengkap dan dokumentasi komprehensif, memudahkan pemula belajar. Konvensi bawaan membuat pengaturan awal sederhana. Django digunakan secara luas dan memiliki fitur keamanan bawaan, memberikan landasan kuat dalam pengembangan aplikasi web.
 
 --Mengapa Model Django Disebut Sebagai ORM?
+
 Model Django disebut ORM karena memetakan kelas Python ke tabel database. ORM memungkinkan interaksi database tanpa menulis SQL manual, memudahkan pengembang. Django ORM juga membuat aplikasi lebih portabel terhadap berbagai jenis database. Ini mempermudah pemrosesan data secara terstruktur dengan sintaks Python.
 
 
