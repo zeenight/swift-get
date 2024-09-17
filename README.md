@@ -205,7 +205,8 @@ langkah 1 : Implementasi Skeleton sebagai Kerangka Views
 bikin templates di direktori utama
 buatlah berkas main.html dengan isi
 
-```{% load static %}
+```
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -217,11 +218,13 @@ buatlah berkas main.html dengan isi
   <body>
     {% block content %} {% endblock content %}
   </body>
-</html>```
+</html>
+
+```
 
 kemudian buka settings.py yang berada di swift_buy dan tambahkan templates dengan kode ini
 ```
-...
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -230,7 +233,7 @@ TEMPLATES = [
         ...
     }
 ]
-...
+
 ```
 
 pada main/templates/ ubahlah kode main.html jadi:
