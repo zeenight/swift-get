@@ -792,3 +792,1346 @@ Menggunakan ForeignKey atau OneToOneField untuk menghubungkan model Product deng
  --Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
 
  Django menggunakan session cookies untuk mengingat pengguna yang telah login. Cookies juga digunakan untuk preferensi pengguna, namun tidak semua cookies aman karena bisa rentan terhadap serangan, seperti XSS.
+
+
+
+ ===================================================================================
+ TUGAS 5
+
+ pertama kita akan memakai tailwind dengan me modif base.html menjadi
+```
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block meta %} {% endblock meta %}
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+  </head>
+
+  <body>
+    {% block content %} {% endblock content %}
+  </body>
+</html>
+```
+
+ke views.py tambahan function untuk edit produk
+
+```
+def edit_product(request, id):
+    # Get mood entry berdasarkan id
+    product = Product.objects.get(pk = id)
+
+    # Set mood entry sebagai instance dari form
+    form = ProductForm(request.POST or None, instance=mood)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+```
+
+ke main/templates dan buat berkas edit_product.html dengan kode
+```
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Edit Product</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Edit Product"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}
+```
+
+
+tambahkan url patterns edit_product
+
+```
+urlpatterns = [
+    path('', show_main, name='show_main'),
+    path('register-product', register_product, name='register_product'),
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<str:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
+    #TUGAS 4
+    path('register/', register, name='register'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
+    #TUGAS 5
+    path('edit-product/<uuid:id>', edit_product, name='edit_product'),
+    
+```
+
+kemudian tambahkan ke html 
+```
+<td>
+  <a href="{% url 'main:edit_product' product_entry.pk %}">
+      <button>
+          Edit
+      </button>
+  </a>
+</td>
+```
+
+di views.py tambahkan 
+```
+def delete_Product(request, id):
+ 
+    product = Product.objects.get(pk = id)
+   
+    product.delete()
+    
+    return HttpResponseRedirect(reverse('main:show_main'))
+```
+untuk menambahkan bagian css harus bikin berkas static dan direktori anda harusnya seperti ini
+```
+project_root/
+│
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── index.js
+│   │── videos/
+│   │   └── ....
+│   ├──  images/
+│       └── ....
+│	
+│
+├── templates/
+│   ├── login.html
+│   ├── register.html
+│   └── ...
+│
+├── your_app_name/
+│   ├── forms.py
+│   ├── views.py
+│   └── ...
+│
+└── manage.py
+```
+
+dan juga tambahkan ini ke settings.py
+```
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+```
+
+kemudian perbarui login.html dengan kode
+```
+{% extends 'base.html' %}
+
+{% load static %} 
+<!DOCTYPE html>
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <video src="{% static 'videos/Pink_Blue_Green_Gradient_Color_and_Style_Video_Background.mp4' %}" autoplay loop muted></video>
+   
+
+
+    <div class="header">
+      
+        <button class="button-login"> Get started!
+        </button>
+        <h2>SwiftGet</h2>
+    
+    </div>
+
+    <div class="Wrapping">
+       
+        <div class="formbox">
+            <h2>Login</h2>
+            <form method="POST" action="">
+                {% csrf_token %}
+
+
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    {{ form.username }}
+                    <label>Username</label>
+                </div>
+                
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    {{ form.password }}
+                    <label>Password</label>
+                </div>
+
+                <button type="submit" class="btn login_btn">Login</button>
+            </form>
+            
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <p>Don't have an account yet? <a href="{% url 'main:register' %}" style="color: purple; text-decoration: underline;">Register Now</a></p>
+        </div>
+    </div>
+
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
+{% endblock %}
+```
+dan buatlah style.css di static/css dimana dalamnya
+```
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.header {
+    font-size: 1.1em;
+    font-weight: 500;
+    right: 0;
+    background: rgba(176, 176, 176, 0.16);
+    backdrop-filter: blur(15px);
+    position: fixed;
+    display: flex;
+    box-shadow: 0 0 8px rgba(207, 146, 248, 0.5);
+    top: 0;
+    width: 100%;
+    padding: 30px 150px;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.navigation span {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    font-size: 1.1em;
+    color: rgb(223, 192, 255);
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 40px;
+}
+
+.navigation span::after {
+    content: '';
+    position: absolute;
+    transform: scaleX(1);
+    left: 0;
+    height: 4px;
+    width: 100%;
+    bottom: -6px;
+    background: rgb(192, 160, 248);
+    border-radius: 1em;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+.navigation span:hover::after {
+    transform: scaleX(1);
+}
+
+.button-login {
+    width: 130px;
+    height: 35px;
+    border-radius: 20px;
+    background: transparent;
+    border-color: transparent;
+    color: rgb(202, 255, 249);
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: 2px solid rgb(222, 202, 255);
+    transition: 0.5s ease;
+    font-weight: 500;
+}
+
+.button-login:hover {
+    background: rgb(211, 251, 255);
+    color: grey;
+    transition: 0.5s ease;
+}
+
+.Wrapping {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 400px;
+    color: rgb(241, 255, 253);
+    height: 440px;
+    justify-content: center;
+    background: rgba(176, 176, 176, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 500;
+    display: flex;
+    position: relative;
+   
+    align-items: center;
+    overflow: hidden;
+    transition: transform .3s ease, height .2s ease, left .5s ease;
+    transform: scale(0);
+    left: -75em;
+}
+
+.inputbox .input {
+    font-size: 20px; /* Reduced the font size slightly for better readability */
+    color: rgb(241, 255, 253);
+    
+}
+
+.formbox h2 {
+    text-align: center;
+}
+
+.Wrapping .formbox {
+    width: 100%;
+    padding: 40px;
+}
+
+.inputbox {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    border-bottom: 2px solid rgb(243, 202, 255);
+}
+
+.inputbox label {
+    position: absolute;
+    top: 70%;
+    left: 5px;
+    transform: translateY(-50%);
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.inputbox input:focus ~ label,
+.inputbox input:valid ~ label {
+    color: rgb(214, 144, 255);
+    top: 20px;
+}
+
+.inputbox input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: rgb(241, 255, 253);
+    font-size: 18px; /* Reduced for better readability */
+    padding-top: 40px; /* Added padding to move the input down */
+
+}
+
+.Wrapping.active-popup {
+    transform: scale(1);
+    left: 0;
+}
+
+.btn.login_btn {
+    width: 120px; /* Adjust width */
+    height: 50px; /* Adjust height */
+    font-size: 20px; /* Adjust text size */
+    padding: 10px 20px; /* Padding for inside the button */
+    border-radius: 10px; /* Rounded corners */
+    background-color: rgba(176, 176, 176, 0.1);
+    color: white; /* Text color */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: 20px; /* Add margin to move it down */
+    transition: background-color 0.3s ease; /* Hover effect transition */
+    border: 2px solid rgb(220, 171, 255);
+}
+
+.btn.login_btn:hover {
+    background: rgb(211, 251, 255);
+    color: black; /* Text color */
+}
+
+
+.transparent-image {
+    width: 50px; /* Adjust as necessary */
+    height: auto;
+    /* No need to use positioning here since flexbox takes care of alignment */
+}
+
+
+
+/* General form wrapper styles ========================================================================================================================*/
+```
+
+
+sekarang register.html perbarui dengan
+```
+
+
+{% extends 'base.html' %}
+
+
+{% load static %} 
+
+<!DOCTYPE html>
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <video src="{% static 'videos/Pink_Blue_Green_Gradient_Color_and_Style_Video_Background.mp4' %}" autoplay loop muted></video>
+   
+
+
+    <div class="header">
+      
+       <h1>Register</h1>
+     
+        <h2>SwiftGet</h2>
+    
+    </div>
+
+
+
+        <div class="register-wrapper">
+          <h1 class="register-title">Register</h1>
+          <form method="POST" class="register-form">
+              {% csrf_token %}
+
+
+              <div class="form-group">
+                <input type="text" name="username" id="id_username" required>
+                <label for="id_username">Username</label>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" name="password1" id="id_password1" required>
+                <label for="id_password1">Password</label>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" name="password2" id="id_password2" required>
+                <label for="id_password2">Confirm Password</label>
+            </div>
+
+              <div class="form-actions">
+                  <button type="submit" class="btn-submit">Register</button>
+              </div>
+
+
+          </form>
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+    
+
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
+{% endblock %}
+```
+buatlah berkas style2.css di static/css dengan isi
+```
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.header {
+    font-size: 1.1em;
+    font-weight: 500;
+    right: 0;
+    background: rgba(176, 176, 176, 0.16);
+    backdrop-filter: blur(15px);
+    position: fixed;
+    display: flex;
+    box-shadow: 0 0 8px rgba(207, 146, 248, 0.5);
+    top: 0;
+    width: 100%;
+    padding: 30px 150px;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+
+
+
+
+.register-wrapper {
+    width: 400px;
+    color: rgb(241, 255, 253);
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+
+    
+
+/* Title styling */
+.register-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 24px;
+    
+}
+
+/* Form group styling */
+.form-group {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+    height: 80px;
+    border-bottom: 2px solid rgb(243, 202, 255);
+}
+
+.form-group label {
+    position: absolute;
+    top: 70%;
+    left: 5px;
+    transform: translateY(-50%);
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.form-group input:focus ~ label,
+.form-group input:valid ~ label {
+    top: 20px; /* Adjust this for how far you want the label to move */
+    font-size: 15px; /* Make the label smaller when focused */
+    color: rgb(214, 144, 255);
+}
+
+.form-group input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: rgb(241, 255, 253);
+    font-size: 18px; /* Reduced for better readability */
+    padding-top: 40px; /* Added padding to move the input down */
+}
+
+/* Submit button styling */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(100, 149, 237); /* You can change this to your preferred color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: rgb(65, 105, 225); /* Darker shade on hover */
+}
+
+/* Messages styling */
+.messages {
+    margin-top: 20px;
+    color: rgb(255, 120, 120);
+}
+
+.messages li {
+    list-style: none;
+    background: rgba(255, 120, 120, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+```
+
+
+lalu perbarui main.html menjadi
+```
+{% extends 'base.html' %}
+{% load static %} 
+<!DOCTYPE html>
+
+{% block content %}
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register</title>
+        <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+      <!-- <img src="{% static 'images/406914-Fluid_gradient_wallpaper_design.jpg' %}" alt="Fluid Gradient Wallpaper"> -->
+      <video src="{% static 'videos/Pink_Main.mp4' %}" autoplay loop muted></video>
+      
+
+
+        <div class="header">
+
+          <div class="login-info">
+            <h5>Last Login: {{ last_login }}</h5>
+          </div>
+
+          <div class="user-info">
+            <h5>Class: {{ class }}</h5>
+          </div>
+
+          
+          <div class="user-info">
+            <h5>NPM: 2306275443</h5>
+          </div>
+
+          <div class="actions">
+            <a href="{% url 'main:register_product' %}">
+              <button class="btn-add">Add New Product</button>
+            </a>
+          </div>
+
+        
+
+          
+
+          {% include 'navbar.html' %}
+
+        </div>
+
+        <div class="product-container">
+          {% if not product_entries %}
+            <p>No product data available in SwiftGet.</p>
+          {% else %}
+            <div class="scrollable-area">
+              <table class="product-table">
+                <thead>
+                  <tr>
+                    <!-- <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for product_entry in product_entries %}
+                  
+                    <!-- <td>{{ product_entry.name }}</td>
+                    <td>{{ product_entry.description }}</td>
+                    <td>{{ product_entry.price }}</td>
+                    <td>{{ product_entry.category }}</td> -->
+               
+                    {% include 'card_product.html' with product_entry=product_entry %}
+                  
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% endif %}
+        </div>
+        <script src="{% static 'js/index.js' %}"></script>
+    </body>
+    </html>
+
+{% endblock %}
+
+```
+buatlah berkas baru style3.css di static/css
+```
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+html {
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrolling on the entire page */
+}
+video {
+    position: fixed; /* Changed from absolute to fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    overflow: hidden; /* Prevents extra scrolling */
+}
+
+.user-info {
+    margin-right: 20px; /* Adds spacing between the user-info sections */
+  }
+  
+  .actions {
+    margin-left: auto; /* Pushes the button to the far right */
+  }
+
+  .header {
+    font-size: 1.1em;
+    font-weight: 500;
+    background: rgba(176, 176, 176, 0.16);
+    backdrop-filter: blur(15px);
+    position: fixed;
+    display: flex;
+    box-shadow: 0 0 8px rgba(207, 146, 248, 0.5);
+    top: 0;
+    width: 100%;
+    padding: 20px 50px; /* Adjusted for better spacing */
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.navigation span {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    font-size: 1.1em;
+    color: rgb(223, 192, 255);
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 40px;
+}
+
+.navigation span::after {
+    content: '';
+    position: absolute;
+    transform: scaleX(1);
+    left: 0;
+    height: 4px;
+    width: 100%;
+    bottom: -6px;
+    background: rgb(192, 160, 248);
+    border-radius: 1em;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+.navigation span:hover::after {
+    transform: scaleX(1);
+}
+
+.button-login {
+    width: 130px;
+    height: 35px;
+    border-radius: 20px;
+    background: transparent;
+    border-color: transparent;
+    color: rgb(202, 255, 249);
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: 2px solid rgb(222, 202, 255);
+    transition: 0.5s ease;
+    font-weight: 500;
+}
+
+.button-login:hover {
+    background: rgb(211, 251, 255);
+    color: grey;
+    transition: 0.5s ease;
+}
+
+.Wrapping {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 400px;
+    color: rgb(241, 255, 253);
+    height: 440px;
+    justify-content: center;
+    background: rgba(176, 176, 176, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 500;
+    display: flex;
+    position: relative;
+   
+    align-items: center;
+    overflow: hidden;
+    transition: transform .3s ease, height .2s ease, left .5s ease;
+    transform: scale(0);
+    left: -75em;
+}
+
+
+
+.actions {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 20px; /* Add space between the buttons */
+    margin-top: 20px;
+}
+
+/* General button styling */
+button {
+    padding: 12px 24px; /* Add padding for a more substantial look */
+    font-size: 16px; /* Increase font size */
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Add New Product button style */
+
+/* Logout button style */
+.btn-logout {
+    background-color: #dc3545; /* Red color for logout action */
+    color: white;
+}
+.btn-add {
+    background-color: rgb(214, 103, 248,0.9); /* Green color for add action */
+    color: rgb(255, 255, 255);
+}
+
+.btn-add:hover {
+    background-color: rgba(247, 220, 255, 0.9);/* Darker green on hover */
+    color:  rgb(214, 103, 248);
+    transform: scale(1.05); /* Slightly larger on hover */
+}
+
+.btn-logout:hover {
+    background-color: #c82333; /* Darker red on hover */
+    transform: scale(1.05); /* Slightly larger on hover */
+}
+
+/* Adding shadow to buttons */
+button {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    transform: scale(0.98); /* Slight click effect */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.user-info {
+    margin-left: 200px; /* Adjust the value as needed */
+}
+
+.product-container {
+    position: relative;
+    z-index: 1;
+    height: 100%; /* Full height of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align content to the top, but allow space with margin */
+    margin-top: 50px; /* Add margin to move the container down */
+}
+
+.scrollable-area {
+    width: 100%;
+    max-width: 1200px; /* Adjust the max-width according to your layout */
+    height: 80vh; /* Adjust height to make this area scrollable */
+    overflow-y: auto; /* Allows vertical scrolling */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.scrollable-area {
+    width: 100%;
+    max-width: 1200px; /* Adjust the max-width according to your layout */
+    height: 80vh; /* Adjust height to make this area scrollable */
+    overflow-y: auto; /* Allows vertical scrolling */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Scrollbar styles for WebKit browsers (e.g., Chrome, Safari) */
+.scrollable-area::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+
+.scrollable-area::-webkit-scrollbar-track {
+    background: rgba(255, 192, 203, 0.2); /* Pink transparent track */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.scrollable-area::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 192, 203, 0.6); /* Pink semi-transparent thumb */
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Adds a light border for better visibility */
+}
+
+/* For Firefox (scrollbar styles) */
+.scrollable-area {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: rgba(255, 192, 203, 0.6) rgba(255, 192, 203, 0.2); /* Thumb and track colors */
+}
+
+.product-table th, .product-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+```
+kemudian perbarui register_product.html 
+```
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Product</title>
+    <link rel="stylesheet" href="{% static 'css/style4.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     
+</head>
+<body>
+    <div class="video-container">
+        <!-- Background video -->
+        <video src="{% static 'videos/Pink_Main.mp4' %}" autoplay loop muted></video>
+
+        <div class="header">
+          <button class="button-login">Get started!</button>
+          <h2>SwiftGet</h2>
+          {% include 'navbar.html' %}
+      </div>
+
+        <!-- Content that goes on top of the video -->
+        <div class="content">
+            <!-- Header with navigation -->
+            <!-- Form to add a new product -->
+            <h1>Add New Product</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="Wrapper">
+                    <div class="form-group">
+                        <label for="id_name">Product Name</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_description">Description</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_price">Price</label>
+                        {{ form.price }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_category">Category</label>
+                        {{ form.category }}
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Add Product" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
+{% endblock %}
+
+```
+sekaligus tambahkan berkas edit_product.html dengan isi
+```
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Product</title>
+    <link rel="stylesheet" href="{% static 'css/style4.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     
+</head>
+<body>
+    <div class="video-container">
+        <!-- Background video -->
+        <video src="{% static 'videos/Pink_Main.mp4' %}" autoplay loop muted></video>
+
+        <div class="header">
+          <button class="button-login">Get started!</button>
+          <h2>SwiftGet</h2>
+          {% include 'navbar.html' %}
+      </div>
+
+        <!-- Content that goes on top of the video -->
+        <div class="content">
+            <!-- Header with navigation -->
+            <!-- Form to add a new product -->
+            <h1>edit Product</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="Wrapper">
+                    <div class="form-group">
+                        <label for="id_name">Product Name</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_description">Description</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_price">Price</label>
+                        {{ form.price }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_category">Category</label>
+                        {{ form.category }}
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Edit Product" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
+{% endblock %}
+
+```
+dan style4.css dibuat di static/css
+```
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+video {
+    position: fixed; /* Changed from absolute to fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+html {
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrolling on the entire page */
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+/* Style the video to cover the entire container */
+
+/* Position the content over the video */
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; /* Text color for contrast */
+    z-index: 2;   /* Make sure content is above the video */
+}
+
+.header h2, .header button {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+.header {
+    font-size: 1.1em;
+    font-weight: 500;
+    right: 0;
+    background: rgba(176, 176, 176, 0.16);
+    backdrop-filter: blur(15px);
+    position: fixed;
+    display: flex;
+    box-shadow: 0 0 8px rgba(207, 146, 248, 0.5);
+    top: 0;
+    width: 100%;
+    padding: 30px 150px;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.Wrapper {
+    width: 100%;                /* Makes the form responsive */
+    max-width: 800px;            /* Increase the max width to 800px or any value you prefer */
+    margin: 0 auto;              /* Centers the form horizontally */
+    padding: 20px;
+    background-color: rgba(249, 249, 249, 0.5);
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  /* Soft shadow for depth */
+    color: palevioletred;
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 20px;  /* Space between form fields */
+    display: flex;
+    flex-direction: column;  /* Labels and inputs stacked vertically */
+    color: palevioletred;
+}
+
+/* Label styles */
+.form-group label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Input field styles */
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    color: palevioletred;
+}
+
+/* Input hover and focus styles */
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #fdbdff;  /* Border color on focus */
+    outline: none;
+    color: palevioletred;
+}
+
+/* Submit button styles */
+.btn {
+    background-color: #dfabd6;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: rgb(255, 255, 255);
+}
+
+/* Hover effect for the button */
+.btn:hover {
+    background-color: #f5bef0;
+    color: palevioletred;
+}
+
+```
+#**1. Urutan Prioritas Pengambilan CSS Selector**
+Ketika ada beberapa CSS selector yang mengatur elemen HTML yang sama, urutan prioritas (specificity) ditentukan berdasarkan aturan berikut:
+
+Inline CSS: Gaya yang langsung ditulis di elemen (misalnya, style="...") memiliki prioritas tertinggi.
+ID Selector: Selector yang menggunakan ID (#) memiliki prioritas lebih tinggi dibandingkan class atau elemen.
+Class, pseudo-class, dan attribute selectors: Selector yang menggunakan class (.classname), pseudo-class (:hover), atau attribute ([type="text"]) memiliki prioritas lebih tinggi dibandingkan tag elemen.
+Element Selector: Selector yang mengacu pada elemen HTML langsung (div, p, h1) memiliki prioritas terendah.
+Important Rule: Jika ada properti yang menggunakan !important, aturan ini akan menimpa aturan lain, kecuali ada selector lain yang juga menggunakan !important dan memiliki specificity lebih tinggi.
+
+
+#**2. Pentingnya Responsive Design dalam Pengembangan Aplikasi Web**
+Responsive design adalah konsep yang penting karena:
+
+Pengalaman Pengguna (UX): Pengguna mengakses aplikasi dari berbagai perangkat (desktop, tablet, smartphone) dengan ukuran layar berbeda. Responsive design memastikan bahwa tampilan aplikasi tetap nyaman dan mudah digunakan di semua perangkat.
+Optimisasi SEO: Mesin pencari seperti Google memberikan preferensi kepada situs yang mobile-friendly, yang artinya responsive design dapat membantu meningkatkan ranking SEO.
+Adaptabilitas: Aplikasi dengan responsive design tidak memerlukan versi terpisah untuk perangkat yang berbeda, sehingga mempermudah pengelolaan konten dan meningkatkan efisiensi.
+Contoh aplikasi yang sudah menerapkan responsive design:
+
+Google: Menampilkan desain yang menyesuaikan dengan perangkat pengguna
+
+#**3. Perbedaan Margin, Border, dan Padding**
+Margin: Area luar elemen yang menciptakan jarak antara elemen dengan elemen lainnya.
+
+Contoh Implementasi
+```
+.box {
+  margin: 20px;
+}
+```
+Border: Garis yang mengelilingi elemen di antara margin dan padding.
+
+Contoh Implementasi
+```
+.box {
+  border: 2px solid black;
+}
+```
+Padding: Ruang antara konten elemen dan border elemen.
+
+Contoh Implementasi
+```
+.box {
+  padding: 10px;
+}
+```
+Ketiganya berada pada model kotak CSS (CSS box model) dengan urutan: Margin di bagian terluar, Border di tengah, dan Padding di bagian dalam, dekat dengan konten elemen.
+
+
+
+#**4. Konsep Flexbox dan Grid Layout Beserta Kegunaannya**
+##Flexbox (Flexible Box Layout)
+
+Konsep: Flexbox dirancang untuk mengatur tata letak elemen dalam satu dimensi (baik secara horizontal atau vertikal). Elemen di dalam flex container dapat secara otomatis menyesuaikan ukuran dan posisinya sesuai dengan ruang yang tersedia.
+Kegunaan: Flexbox digunakan untuk membuat tata letak yang responsif dan dinamis, seperti menyusun item dalam baris atau kolom, sentralisasi elemen, atau mengatur ruang antar elemen.
+
+##Grid Layout
+
+Konsep: Grid layout dirancang untuk tata letak dua dimensi (baris dan kolom). Dengan grid, kita dapat dengan mudah membuat desain halaman yang kompleks dengan mengatur area konten dalam grid cells.
+Kegunaan: Grid cocok digunakan untuk tata letak yang lebih rumit, seperti halaman dashboard, di mana elemen-elemen perlu diatur dalam kolom dan baris yang teratur.
+Contoh Implementasi:
+
+Perbandingan: Flexbox lebih baik untuk tata letak linier (satu dimensi), sedangkan Grid lebih fleksibel untuk tata letak yang melibatkan kolom dan baris (dua dimensi).
