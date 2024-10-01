@@ -1,16 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% load static %} 
-<!DOCTYPE html>
+
+{% block meta %}
+<title>Login</title>
+{% endblock meta %}
 
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    
-</head>
 <body>
     <video src="{% static 'videos/Pink_Blue_Green_Gradient_Color_and_Style_Video_Background.mp4' %}" autoplay loop muted></video>
    
@@ -62,4 +58,4 @@
     <script src="{% static 'js/index.js' %}"></script>
 </body>
 </html>
-{% endblock %}
+{% endblock content%}
