@@ -1,0 +1,44 @@
+{% load static %} <!-- This line is added at the top -->
+
+<div class="relative break-inside-avoid">
+  <!-- Decorative elements -->
+  <!-- Main card -->
+  <div class="relative top-5 bg-white bg-opacity-10 backdrop-blur-md shadow-md rounded-lg mb-6 break-inside-avoid flex flex-col border border-white w-[400px] mx-auto p-10 mt-12">
+    
+    <!-- Product title and details -->
+    <div class="bg-transparent text-[rgb(241,255,253)] p-4 rounded-t-lg border-b border-white">
+      <h3 class="font-bold text-xl mb-2 text-black">{{ product_entry.name }}</h3> <!-- Changed to text-black -->
+      <p class="text-black">{{ product_entry.category }}</p> <!-- Changed to text-black -->
+    </div>
+    
+    <!-- Product description -->
+    <div class="p-4">
+      <p class="font-semibold text-lg mb-2 text-black">Description</p>  <!-- Changed to text-black -->
+      <p class="text-black mb-2">{{ product_entry.description }}</p> <!-- Changed to text-black -->
+
+      <!-- Price section -->
+      <div class="mt-4">
+        <p class="text-black font-semibold mb-2">Price</p> <!-- Changed to text-black -->
+        <div class="relative pt-1">
+          <div class="flex mb-2 items-center justify-between">
+            <div>
+              <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-black bg-white bg-opacity-20"> <!-- Changed to text-black -->
+                ${{ product_entry.price }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action buttons (edit and delete) -->
+  <div class="absolute top-0 right-0 flex space-x-4 p-2">
+    <a href="{% url 'main:edit_product' product_entry.pk %}" class="bg-white bg-opacity-10 hover:bg-opacity-20 text-black rounded-full p-2 transition duration-300 shadow-md flex items-center justify-center"> <!-- Changed to text-black -->
+      <img src="{% static 'images/edit.png' %}" alt="edit" class="w-5 h-5">
+    </a>
+    <a href="{% url 'main:delete_product' product_entry.pk %}" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md flex items-center justify-center">
+      <!-- <img src="{% static 'images/delete.png' %}" alt="Delete" class="w-5 h-5"> -->
+    </a>
+  </div>
+</div>

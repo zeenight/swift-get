@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+html {
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrolling on the entire page */
+}
+video {
+    position: fixed; /* Changed from absolute to fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    overflow: hidden; /* Prevents extra scrolling */
+}
+
+.user-info {
+    margin-right: 20px; /* Adds spacing between the user-info sections */
+  }
+  
+  .actions {
+    margin-left: auto; /* Pushes the button to the far right */
+  }
+
+  .header {
+    font-size: 1.1em;
+    font-weight: 500;
+    background: rgba(176, 176, 176, 0.16);
+    backdrop-filter: blur(15px);
+    position: fixed;
+    display: flex;
+    box-shadow: 0 0 8px rgba(207, 146, 248, 0.5);
+    top: 0;
+    width: 100%;
+    padding: 20px 50px; /* Adjusted for better spacing */
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.navigation span {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    font-size: 1.1em;
+    color: rgb(223, 192, 255);
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 40px;
+}
+
+.navigation span::after {
+    content: '';
+    position: absolute;
+    transform: scaleX(1);
+    left: 0;
+    height: 4px;
+    width: 100%;
+    bottom: -6px;
+    background: rgb(192, 160, 248);
+    border-radius: 1em;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+.navigation span:hover::after {
+    transform: scaleX(1);
+}
+
+.button-login {
+    width: 130px;
+    height: 35px;
+    border-radius: 20px;
+    background: transparent;
+    border-color: transparent;
+    color: rgb(202, 255, 249);
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: 2px solid rgb(222, 202, 255);
+    transition: 0.5s ease;
+    font-weight: 500;
+}
+
+.button-login:hover {
+    background: rgb(211, 251, 255);
+    color: grey;
+    transition: 0.5s ease;
+}
+
+.Wrapping {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 400px;
+    color: rgb(241, 255, 253);
+    height: 440px;
+    justify-content: center;
+    background: rgba(176, 176, 176, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 500;
+    display: flex;
+    position: relative;
+   
+    align-items: center;
+    overflow: hidden;
+    transition: transform .3s ease, height .2s ease, left .5s ease;
+    transform: scale(0);
+    left: -75em;
+}
+
+
+
+.actions {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 20px; /* Add space between the buttons */
+    margin-top: 20px;
+}
+
+/* General button styling */
+button {
+    padding: 12px 24px; /* Add padding for a more substantial look */
+    font-size: 16px; /* Increase font size */
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Add New Product button style */
+
+/* Logout button style */
+.btn-logout {
+    background-color: #dc3545; /* Red color for logout action */
+    color: white;
+}
+.btn-add {
+    background-color: rgb(214, 103, 248,0.9); /* Green color for add action */
+    color: rgb(255, 255, 255);
+}
+
+.btn-add:hover {
+    background-color: rgba(247, 220, 255, 0.9);/* Darker green on hover */
+    color:  rgb(214, 103, 248);
+    transform: scale(1.05); /* Slightly larger on hover */
+}
+
+.btn-logout:hover {
+    background-color: #c82333; /* Darker red on hover */
+    transform: scale(1.05); /* Slightly larger on hover */
+}
+
+/* Adding shadow to buttons */
+button {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+    transform: scale(0.98); /* Slight click effect */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.user-info {
+    margin-left: 200px; /* Adjust the value as needed */
+}
+
+.product-container {
+    position: relative;
+    z-index: 1;
+    height: 100%; /* Full height of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align content to the top, but allow space with margin */
+    margin-top: 50px; /* Add margin to move the container down */
+}
+
+.scrollable-area {
+    width: 100%;
+    max-width: 1200px; /* Adjust the max-width according to your layout */
+    height: 80vh; /* Adjust height to make this area scrollable */
+    overflow-y: auto; /* Allows vertical scrolling */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.scrollable-area {
+    width: 100%;
+    max-width: 1200px; /* Adjust the max-width according to your layout */
+    height: 80vh; /* Adjust height to make this area scrollable */
+    overflow-y: auto; /* Allows vertical scrolling */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Scrollbar styles for WebKit browsers (e.g., Chrome, Safari) */
+.scrollable-area::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+
+.scrollable-area::-webkit-scrollbar-track {
+    background: rgba(255, 192, 203, 0.2); /* Pink transparent track */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.scrollable-area::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 192, 203, 0.6); /* Pink semi-transparent thumb */
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Adds a light border for better visibility */
+}
+
+/* For Firefox (scrollbar styles) */
+.scrollable-area {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: rgba(255, 192, 203, 0.6) rgba(255, 192, 203, 0.2); /* Thumb and track colors */
+}
+
+.product-table th, .product-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}

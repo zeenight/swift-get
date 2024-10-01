@@ -1,32 +1,66 @@
 {% extends 'base.html' %}
 
-{% block meta %}
-<title>Login</title>
-{% endblock meta %}
+{% load static %} 
+<!DOCTYPE html>
 
 {% block content %}
-<div class="login">
-  <h1>Login</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <video src="{% static 'videos/Pink_Blue_Green_Gradient_Color_and_Style_Video_Background.mp4' %}" autoplay loop muted></video>
+   
 
-  <form method="POST" action="">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td></td>
-        <td><input class="btn login_btn" type="submit" value="Login" /></td>
-      </tr>
-    </table>
-  </form>
 
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %} Don't have an account yet?
-  <a href="{% url 'main:register' %}">Register Now</a>
-</div>
+    <div class="header">
+      
+        <button class="button-login"> Get started!
+        </button>
+        <h2>SwiftGet</h2>
+    
+    </div>
 
-{% endblock content %}
+    <div class="Wrapping">
+       
+        <div class="formbox">
+            <h2>Login</h2>
+            <form method="POST" action="">
+                {% csrf_token %}
+
+
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    {{ form.username }}
+                    <label>Username</label>
+                </div>
+                
+                <div class="inputbox">
+                    <span class="icon"></span>
+                    {{ form.password }}
+                    <label>Password</label>
+                </div>
+
+                <button type="submit" class="btn login_btn">Login</button>
+            </form>
+            
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <p>Don't have an account yet? <a href="{% url 'main:register' %}" style="color: purple; text-decoration: underline;">Register Now</a></p>
+        </div>
+    </div>
+
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
+{% endblock %}

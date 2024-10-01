@@ -1,18 +1,66 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<h1>Add new product</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Product</title>
+    <link rel="stylesheet" href="{% static 'css/style4.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     
+</head>
+<body>
+    <div class="video-container">
+        <!-- Background video -->
+        <video src="{% static 'videos/Pink_Main.mp4' %}" autoplay loop muted></video>
 
-<form method="POST">
-  {% csrf_token %}
-  <table>
-    {{ form.as_table }}
-    <tr>
-      <td></td>
-      <td>
-        <input type="submit" value="Add product name" />
-      </td>
-    </tr>
-  </table>
-</form>
+        <div class="header">
+          <button class="button-login">Get started!</button>
+          <h2>SwiftGet</h2>
+          {% include 'navbar.html' %}
+      </div>
 
+        <!-- Content that goes on top of the video -->
+        <div class="content">
+            <!-- Header with navigation -->
+            <!-- Form to add a new product -->
+            <h1>Add New Product</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="Wrapper">
+                    <div class="form-group">
+                        <label for="id_name">Product Name</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_description">Description</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_price">Price</label>
+                        {{ form.price }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_category">Category</label>
+                        {{ form.category }}
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Add Product" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
 {% endblock %}

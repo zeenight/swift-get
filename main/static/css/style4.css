@@ -1,0 +1,154 @@
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+video {
+    position: fixed; /* Changed from absolute to fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+html {
+
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrolling on the entire page */
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+/* Style the video to cover the entire container */
+
+/* Position the content over the video */
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; /* Text color for contrast */
+    z-index: 2;   /* Make sure content is above the video */
+}
+
+.header h2, .header button {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+.header {
+    font-size: 1.1em;
+    font-weight: 500;
+    right: 0;
+    background: rgba(176, 176, 176, 0.16);
+    backdrop-filter: blur(15px);
+    position: fixed;
+    display: flex;
+    box-shadow: 0 0 8px rgba(207, 146, 248, 0.5);
+    top: 0;
+    width: 100%;
+    padding: 30px 150px;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.Wrapper {
+    width: 100%;                /* Makes the form responsive */
+    max-width: 800px;            /* Increase the max width to 800px or any value you prefer */
+    margin: 0 auto;              /* Centers the form horizontally */
+    padding: 20px;
+    background-color: rgba(249, 249, 249, 0.5);
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  /* Soft shadow for depth */
+    color: palevioletred;
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 20px;  /* Space between form fields */
+    display: flex;
+    flex-direction: column;  /* Labels and inputs stacked vertically */
+    color: palevioletred;
+}
+
+/* Label styles */
+.form-group label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Input field styles */
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    color: palevioletred;
+}
+
+/* Input hover and focus styles */
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #fdbdff;  /* Border color on focus */
+    outline: none;
+    color: palevioletred;
+}
+
+/* Submit button styles */
+.btn {
+    background-color: #dfabd6;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: rgb(255, 255, 255);
+}
+
+/* Hover effect for the button */
+.btn:hover {
+    background-color: #f5bef0;
+    color: palevioletred;
+}
+

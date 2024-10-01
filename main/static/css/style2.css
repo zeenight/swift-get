@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.header {
+    font-size: 1.1em;
+    font-weight: 500;
+    right: 0;
+    background: rgba(176, 176, 176, 0.16);
+    backdrop-filter: blur(15px);
+    position: fixed;
+    display: flex;
+    box-shadow: 0 0 8px rgba(207, 146, 248, 0.5);
+    top: 0;
+    width: 100%;
+    padding: 30px 150px;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+
+
+
+
+.register-wrapper {
+    width: 400px;
+    color: rgb(241, 255, 253);
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+
+    
+
+/* Title styling */
+.register-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 24px;
+    
+}
+
+/* Form group styling */
+.form-group {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+    height: 80px;
+    border-bottom: 2px solid rgb(243, 202, 255);
+}
+
+.form-group label {
+    position: absolute;
+    top: 70%;
+    left: 5px;
+    transform: translateY(-50%);
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.form-group input:focus ~ label,
+.form-group input:valid ~ label {
+    top: 20px; /* Adjust this for how far you want the label to move */
+    font-size: 15px; /* Make the label smaller when focused */
+    color: rgb(214, 144, 255);
+}
+
+.form-group input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: rgb(241, 255, 253);
+    font-size: 18px; /* Reduced for better readability */
+    padding-top: 40px; /* Added padding to move the input down */
+}
+
+/* Submit button styling */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(100, 149, 237); /* You can change this to your preferred color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: rgb(65, 105, 225); /* Darker shade on hover */
+}
+
+/* Messages styling */
+.messages {
+    margin-top: 20px;
+    color: rgb(255, 120, 120);
+}
+
+.messages li {
+    list-style: none;
+    background: rgba(255, 120, 120, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

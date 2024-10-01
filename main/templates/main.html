@@ -1,49 +1,106 @@
 {% extends 'base.html' %}
+{% load static %} 
+<!DOCTYPE html>
+
 {% block content %}
-
-<h1>{{app_name}}</h1>
-<p><p>
-<h5>Name: {{ name }} </h5>
-<p><p>
-<h5 >class: {{ class }} </h5>
-<p><p>
-    
-
-{% if not product_entries %}
-<p>Belum ada data product dalam swiftget.</p>
-{% else %}
-<table>
-  <tr>
-    <th>Product name</th>
-    <th>description</th>
-    <th>price</th>
-    <th>category</th>
-  </tr>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register</title>
+        <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+      <!-- <img src="{% static 'images/406914-Fluid_gradient_wallpaper_design.jpg' %}" alt="Fluid Gradient Wallpaper"> -->
+      <video src="{% static 'videos/Pink_Main.mp4' %}" autoplay loop muted></video>
+      
 
 
-  {% comment %} Berikut cara memperlihatkan data product di bawah baris ini 
-  {% endcomment %} 
-  {% for product_entry in product_entries %}
-  <tr>
-    <td>{{product_entry.name}}</td>
-    <td>{{product_entry.description}}</td>
-    <td>{{product_entry.price}}</td>
-    <td>{{product_entry.category}}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% endif %}
+        <div class="header">
 
-<br />
+          <div class="login-info">
+            <h5>Last Login: {{ last_login }}</h5>
+          </div>
 
-<a href="{% url 'main:register_product' %}">
-  <button>Add New Product</button>
-</a>
+          <div class="user-info">
+            <h5>Class: {{ class }}</h5>
+          </div>
 
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
+          
+          <div class="user-info">
+            <h5>NPM: 2306275443</h5>
+          </div>
 
-<h5>Sesi terakhir login: {{ last_login }}</h5>
+          <div class="actions">
+            <a href="{% url 'main:register_product' %}">
+              <button class="btn-add">Add New Product</button>
+            </a>
+          </div>
 
-{% endblock content %}
+        
+
+          
+
+          {% include 'navbar.html' %}
+
+        </div>
+
+        <div class="product-container">
+          {% if not product_entries %}
+            <p>No product data available in SwiftGet.</p>
+          {% else %}
+            <div class="scrollable-area">
+              <table class="product-table">
+                <thead>
+                  <tr>
+                    <!-- <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for product_entry in product_entries %}
+                  
+                    <!-- <td>{{ product_entry.name }}</td>
+                    <td>{{ product_entry.description }}</td>
+                    <td>{{ product_entry.price }}</td>
+                    <td>{{ product_entry.category }}</td> -->
+               
+                    {% include 'card_product.html' with product_entry=product_entry %}
+                  
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% endif %}
+        </div>
+        <script src="{% static 'js/index.js' %}"></script>
+    </body>
+    </html>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
