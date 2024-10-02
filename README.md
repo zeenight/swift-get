@@ -2093,6 +2093,10 @@ Contoh aplikasi yang sudah menerapkan responsive design:
 
 Google: Menampilkan desain yang menyesuaikan dengan perangkat pengguna
 
+Contoh web yang tidak menerapkan responsive design:
+
+https://dequeuniversity.com/library/responsive/1-non-responsive
+
 #**3. Perbedaan Margin, Border, dan Padding**
 Margin: Area luar elemen yang menciptakan jarak antara elemen dengan elemen lainnya.
 
