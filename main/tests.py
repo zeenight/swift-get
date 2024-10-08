@@ -23,4 +23,3 @@ class mainTest(TestCase):
           price = 8,
           category = "sports",
         )
-        self.assertTrue(mood.is_mood_strong)

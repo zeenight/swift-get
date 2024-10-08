@@ -8,7 +8,6 @@ class ProductForm(ModelForm):
         model = Product
         fields = ["name", "description", "category","price"]
 
-
     def clean_name(self):
         name = self.cleaned_data["name"]
         return strip_tags(name)
