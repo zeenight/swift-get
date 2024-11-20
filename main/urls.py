@@ -12,6 +12,8 @@ from main.views import edit_product
 #TUGAS 6
 from main.views import add_product_entry_ajax
 
+#TUGAS 6
+from main.views import create_product_flutter
 
 app_name = 'main'
 
@@ -30,6 +32,7 @@ urlpatterns = [
     path('edit-product/<uuid:id>', edit_product, name='edit_product'),
     path('delete/<uuid:id>', delete_product, name='delete_product'),
     path('create-product-entry-ajax', add_product_entry_ajax, name='add_product_entry_ajax'),
+    path('create-flutter/', create_product_flutter, name='create_product_flutter'),
     
 
 
